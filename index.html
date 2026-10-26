@@ -268,7 +268,7 @@ tr.detail td{padding:0 14px 22px;background:var(--signal-wash);border-bottom:1px
           <b>ROAS delivered</b>
           <div class="legend"><span><i style="background:var(--line)"></i>Before</span><span><i style="background:var(--signal)"></i>Result</span></div>
         </div>
-        <svg id="roasChart" viewBox="0 0 460 260" role="img" aria-label="ROAS by client: Bacteriostatics 8.57x on Meta, Pro Traders Fund from 1.89x to 5.11x, UK office furniture retailer 6.08x, Payne Stewart Collection 4.81x"></svg>
+        <svg id="roasChart" viewBox="0 0 460 260" role="img" aria-label="ROAS by client: Bacteriostatics 8.57x on Meta from a fresh start, Pro Traders Fund from 1.89x to 5.11x, UK office furniture retailer from 0.73x to 6.08x, Payne Stewart Collection from 1.60x to 4.81x"></svg>
         <figcaption class="src">Platform-reported ROAS. Dashed line marks break-even (1.0x).</figcaption>
       </figure>
     </div>
@@ -534,10 +534,10 @@ document.getElementById("roster").innerHTML = ROSTER.filter(n => !hidden.has(n))
   const svg = document.getElementById("roasChart");
   const pick = id => CASES.find(c => c.id === id);
   const data = [
-    {c:pick("bws"), label:"Bacteriostatics (Meta)", before:null, after:8.57},
-    {c:pick("a1"), before:null, after:6.08},
+    {c:pick("bws"), label:"Bacteriostatics (Meta)", before:null, fresh:true, after:8.57},
+    {c:pick("a1"), before:0.73, after:6.08},
     {c:pick("pro-traders"), before:1.89, after:5.11},
-    {c:pick("payne"), before:null, after:4.81}
+    {c:pick("payne"), before:1.60, after:4.81}
   ];
   const L = 150, R = 420, top = 18, rowH = 54, max = 9;
   const x = v => L + (v / max) * (R - L);
@@ -552,9 +552,10 @@ document.getElementById("roster").innerHTML = ROSTER.filter(n => !hidden.has(n))
     const nm = d.label || (d.c.nda ? d.c.alias : d.c.name);
     s += `<text class="cl" x="0" y="${y+15}">${esc(nm.length > 22 ? nm.slice(0,21)+"…" : nm)}</text>`;
     if (d.before) s += `<rect x="${L}" y="${y}" width="${x(d.before)-L}" height="22" rx="3" fill="var(--line)"/>`;
-    s += `<rect class="bar-after" style="animation-delay:${i*0.12}s" x="${L}" y="${y + (d.before ? 9 : 0)}" width="${x(d.after)-L}" height="${d.before ? 13 : 22}" rx="3" fill="var(--signal)"/>`;
+    s += `<rect class="bar-after" style="animation-delay:${i*0.12}s" x="${L}" y="${y + (d.before || d.fresh ? 9 : 0)}" width="${x(d.after)-L}" height="${d.before || d.fresh ? 13 : 22}" rx="3" fill="var(--signal)"/>`;
     s += `<text class="val" x="${x(d.after)+6}" y="${y+15}">${d.after.toFixed(2)}x</text>`;
-    if (d.before) s += `<text x="${x(d.before)-4}" y="${y+8}" text-anchor="end" style="font-size:10px">${d.before}x</text>`;
+    if (d.before) s += d.before < 1.2 ? `<text x="${x(d.before)+4}" y="${y+8}" style="font-size:10px">${d.before.toFixed(2)}x</text>` : `<text x="${x(d.before)-4}" y="${y+8}" text-anchor="end" style="font-size:10px">${d.before.toFixed(2)}x</text>`;
+    if (d.fresh) s += `<text x="${L+4}" y="${y+8}" style="font-size:10px">fresh start</text>`;
   });
   svg.innerHTML = s;
 })();
