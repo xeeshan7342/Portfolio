@@ -396,6 +396,13 @@ lb.addEventListener("click", e => { if (e.target === lb) lb.close(); });
 
 // nda: true hides the client's name everywhere (case study + roster) and shows the "name withheld" tag.
 const CASES = [
+  { id:"bws", name:"Bacteriostatics", alias:"US medical supplies store", nda:false, sector:"E-commerce · USA",
+    obj:"Sales", plat:["Google","Meta"], budget:"~$30K/mo", kpi:"$753K store sales", status:"on",
+    problem:["Almost no paid traffic or sales in the prior period (the comparison line sits near $0)","Google Ads conversion tracking needed a clean GTM setup before spend could scale"],
+    did:["GTM-based Google Ads conversion tracking on the WordPress store","Target ROAS Search campaign as the main revenue driver","Performance Max vial shopping campaign for product feed traffic","Meta Advantage+ and purchase-optimised campaigns, with offers and creatives tested in rounds","Weaker tests paused, budget kept on the winners"],
+    metrics:[["Store sales (5 mo)","$753,390"],["Orders","12K"],["Google ROAS","4.14x"],["Meta ROAS","8.57x"],["Google spend","$135,665"],["Meta spend","$12,255"],["Google conv. rate","12.87%"],["Meta purchases","1,346"]],
+    note:"May 1 to Sep 30, 2026. ROAS is platform-reported. Combined spend $147.9K against $666K reported conversion value (4.50x).",
+    shots:[["shots/bws-store.jpg","Store","May–Sep 2026: $753,389.96 total sales, 12K orders"],["shots/bws-google-total.jpg","Google Ads","$135.7K spend, $561K conversion value, 9,105 conversions"],["shots/bws-google-campaigns.jpg","Google Ads","Search (Target ROAS) at 4.32x on $116K spend"],["shots/bws-meta-results.jpg","Meta Ads","1,346 purchases on $12,254.96 spend"],["shots/bws-meta-roas.jpg","Meta Ads","$104,994.94 purchase value, 8.57 average ROAS"]] },
   { id:"pro-traders", name:"Pro Traders Fund", alias:"US prop trading firm", nda:false, sector:"Fintech · USA, Jamaica, Canada",
     obj:"Sales", plat:["Meta","Google"], budget:"$22K/mo", kpi:"5.11x ROAS", delta:"+170%", status:"done",
     problem:["Google Ads ROAS stuck at 1.89x on $64K spend (Jun–Aug 2024)","Broken tracking made attribution guesswork","Cost per conversion over $100 and no clear way to scale"],
@@ -457,7 +464,7 @@ const CASES = [
 
 const ROSTER = ["Haply","Pro Traders Fund","OriginFX","Payne Stewart Collection","A1 Office Furniture","Myne Lend","Tracking.me","Rafeeqi Umrah","Rafeeqi Tourism","ESL Tags","Gorex","Dick's Sporting Goods Open","Inspirity Invitational","Upper Deck Golf","Amateur Golf","Month Stayz Thailand","Ivox","Al Jamil","Qareeb Jumlah","Royal Flushh","Ignite Entertainment","Orange Whip","Nasologist","Adsell AI","Lorevelle","Dr Nad","Aspire Dental","Quran Ambassadors","Petzalia","Balayar","Members Tees","Momo Juice","Coconutt GO","ICMA Digital","Silver Relief Supply","ENOF","Surmer Collection","Tiglex","Whoosh","Capture My Event","JIMIIOT","TEFCO","Lapela Consulting","Azzurri Wellness","Bacteriostatics","Prestige Sciences","Spark Twice"];
 // Extra names to keep off the roster even though they have no case study here.
-const HIDE = ["Bacteriostatics"];
+const HIDE = [];
 
 const PC = {Meta:"--meta",Google:"--google",TikTok:"--tiktok",LinkedIn:"--linkedin",Bing:"--bing"};
 const lock = '<svg viewBox="0 0 12 12" fill="currentColor"><path d="M3.5 5V3.6a2.5 2.5 0 015 0V5h.5a1 1 0 011 1v4a1 1 0 01-1 1H3a1 1 0 01-1-1V6a1 1 0 011-1h.5zm1 0h3V3.6a1.5 1.5 0 00-3 0V5z"/></svg>';
