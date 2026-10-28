@@ -268,8 +268,8 @@ tr.detail td{padding:0 14px 22px;background:var(--signal-wash);border-bottom:1px
           <b>ROAS delivered</b>
           <div class="legend"><span><i style="background:var(--line)"></i>Before</span><span><i style="background:var(--signal)"></i>Result</span></div>
         </div>
-        <svg id="roasChart" viewBox="0 0 460 260" role="img" aria-label="ROAS by client: Bacteriostatics 8.57x on Meta and Lorevelle 8.30x on TikTok, both from a fresh start, Pro Traders Fund from 1.89x to 5.11x, UK office furniture retailer from 0.73x to 6.08x"></svg>
-        <figcaption class="src">Platform-reported ROAS. Lorevelle is the 3-month spend-weighted average. Dashed line marks break-even (1.0x).</figcaption>
+        <svg id="roasChart" viewBox="0 0 460 310" role="img" aria-label="ROAS by client: Qareeb 13.4x (store sales over ad spend), Bacteriostatics 8.57x on Meta and Lorevelle 8.30x on TikTok, both from a fresh start, Pro Traders Fund from 1.89x to 5.11x, UK office furniture retailer from 0.73x to 6.08x"></svg>
+        <figcaption class="src">Platform-reported ROAS, except Qareeb (store sales ÷ ad spend). Lorevelle is the 3-month spend-weighted average. Dashed line marks break-even (1.0x).</figcaption>
       </figure>
     </div>
 
@@ -277,7 +277,7 @@ tr.detail td{padding:0 14px 22px;background:var(--signal-wash);border-bottom:1px
       <div class="kpi"><div class="eyebrow">Ad spend managed</div><div class="n">$1M+</div><div class="d">across all accounts</div></div>
       <div class="kpi"><div class="eyebrow">Brands served</div><div class="n">50+</div><div class="d">DTC, fintech, B2B, events</div></div>
       <div class="kpi"><div class="eyebrow">Markets</div><div class="n">15</div><div class="d">countries targeted</div></div>
-      <div class="kpi"><div class="eyebrow">Best ROAS</div><div class="n" style="color:var(--signal)">8.57x</div><div class="d">Meta, $105K in purchases</div></div>
+      <div class="kpi"><div class="eyebrow">Best ROAS</div><div class="n" style="color:var(--signal)">13.4x</div><div class="d">Qareeb, 80K SAR on 6K SAR</div></div>
       <div class="kpi"><div class="eyebrow">Lowest cost per lead</div><div class="n">$0.22</div><div class="d">3,438 leads in 30 days</div></div>
     </div>
   </div>
@@ -553,15 +553,16 @@ document.getElementById("roster").innerHTML = ROSTER.filter(n => !hidden.has(n))
   const svg = document.getElementById("roasChart");
   const pick = id => CASES.find(c => c.id === id);
   const data = [
+    {c:pick("qareeb"), label:"Qareeb (sales ÷ spend)", before:null, after:13.4},
     {c:pick("bws"), label:"Bacteriostatics (Meta)", before:null, fresh:true, after:8.57},
     {c:pick("lorevelle"), label:"Lorevelle (TikTok)", before:null, fresh:true, after:8.30},
     {c:pick("a1"), before:0.73, after:6.08},
     {c:pick("pro-traders"), before:1.89, after:5.11}
   ];
-  const L = 150, R = 420, top = 18, rowH = 54, max = 9;
+  const L = 150, R = 410, top = 18, rowH = 54, max = 14;
   const x = v => L + (v / max) * (R - L);
   let s = "";
-  for (let t = 0; t <= max; t++) {
+  for (let t = 0; t <= max; t += max > 10 ? 2 : 1) {
     s += `<line x1="${x(t)}" y1="${top-6}" x2="${x(t)}" y2="${top + rowH*data.length}" stroke="var(--line-2)" stroke-width="1"/>`;
     s += `<text x="${x(t)}" y="${top + rowH*data.length + 16}" text-anchor="middle">${t}x</text>`;
   }
