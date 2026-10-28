@@ -553,7 +553,7 @@ document.getElementById("roster").innerHTML = ROSTER.filter(n => !hidden.has(n))
   const svg = document.getElementById("roasChart");
   const pick = id => CASES.find(c => c.id === id);
   const data = [
-    {c:pick("qareeb"), label:"Qareeb (sales ÷ spend)", before:null, after:13.4},
+    {c:pick("qareeb"), label:"Qareeb", before:null, fresh:true, after:13.4},
     {c:pick("bws"), label:"Bacteriostatics (Meta)", before:null, fresh:true, after:8.57},
     {c:pick("lorevelle"), label:"Lorevelle (TikTok)", before:null, fresh:true, after:8.30},
     {c:pick("a1"), before:0.73, after:6.08},
