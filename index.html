@@ -204,8 +204,16 @@ tr.detail td{padding:0 14px 22px;background:var(--signal-wash);border-bottom:1px
 .stack li{display:flex;align-items:center;gap:8px}
 
 /* roster */
-.roster{display:flex;flex-wrap:wrap;gap:8px}
-.roster span{font-size:14px;font-weight:500;padding:6px 12px;border:1px solid var(--line);border-radius:6px;background:var(--panel);color:var(--ink-2)}
+.roster{display:grid;gap:14px}
+.mq{overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent)}
+.mq-track{display:flex;width:max-content;animation:mq var(--dur,60s) linear infinite}
+.mq.rev .mq-track{animation-direction:reverse}
+.roster:hover .mq-track{animation-play-state:paused}
+.mq-group{display:flex;gap:48px;padding-right:48px}
+.mq-group span{font-family:var(--f-display);font-weight:800;font-stretch:72%;font-size:26px;letter-spacing:.02em;text-transform:uppercase;color:var(--ink-3);white-space:nowrap;opacity:.8;transition:opacity .2s,color .2s}
+.mq-group span:hover{color:var(--ink);opacity:1}
+@keyframes mq{to{transform:translateX(-50%)}}
+@media (prefers-reduced-motion:reduce){.mq{-webkit-mask-image:none;mask-image:none}.mq-track{width:auto}.mq-group{flex-wrap:wrap;gap:10px 28px}.mq-group[aria-hidden]{display:none}}
 .geo{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:18px;font:500 13px var(--f-mono);color:var(--ink-3)}
 
 /* about */
@@ -354,8 +362,8 @@ tr.detail td{padding:0 14px 22px;background:var(--signal-wash);border-bottom:1px
 
   <section style="padding-top:16px">
     <div class="wrap">
-      <div class="sh"><div><div class="eyebrow">Audience reached</div><h2 style="margin-top:8px">Brands I've worked with</h2><p>A selection. Some clients are not listed at their request.</p></div></div>
-      <div class="roster" id="roster"></div>
+      <div class="sh"><div><div class="eyebrow">Clients</div><h2 style="margin-top:8px">Brands I've helped scale</h2><p>A selection. Some clients are not listed at their request.</p></div></div>
+      <div class="roster" id="roster" aria-label="Client brands"></div>
       <div class="geo"><span>USA</span><span>UK</span><span>Saudi Arabia</span><span>UAE</span><span>Kuwait</span><span>Canada</span><span>Singapore</span><span>Australia</span><span>Jamaica</span><span>Thailand</span><span>Netherlands</span><span>Brazil</span><span>Vietnam</span><span>Japan</span><span>Pakistan</span></div>
     </div>
   </section>
@@ -546,7 +554,11 @@ toggle(tbody.querySelector("tr.row"));
 
 // roster: never list a client marked nda
 const hidden = new Set([...CASES.filter(c => c.nda).map(c => c.name), ...HIDE]);
-document.getElementById("roster").innerHTML = ROSTER.filter(n => !hidden.has(n)).map(n => `<span>${esc(n)}</span>`).join("");
+const names = ROSTER.filter(n => !hidden.has(n)), half = Math.ceil(names.length / 2);
+const mqRow = (list, rev) => { const g = list.map(n => `<span>${esc(n)}</span>`).join(""); return `<div class="mq${rev ? " rev" : ""}"><div class="mq-track"><div class="mq-group">${g}</div><div class="mq-group" aria-hidden="true">${g}</div></div></div>`; };
+const rosterEl = document.getElementById("roster");
+rosterEl.innerHTML = mqRow(names.slice(0, half), false) + mqRow(names.slice(half), true);
+rosterEl.querySelectorAll(".mq").forEach(m => m.style.setProperty("--dur", Math.max(30, m.querySelector(".mq-group").scrollWidth / 45) + "s"));
 
 // ROAS chart
 (function(){
